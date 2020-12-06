@@ -84,11 +84,12 @@ def insertarTitulo(newPalabra, index):
         titulos.append([newPalabra, [index]])
     else:
         temporal = titulos[izquierda]
-        titulos[izquierda] = [newPalabra, index]
+        titulos[izquierda] = [newPalabra, [index]]
         # print(temporal)
         maxi = len(titulos)
         # print(maxi)
         # print(izquierda+1)
+        print(izquierda, " TITULO ", derecha)
         for i in range((izquierda+1), maxi):
             aux = titulos[i]
             titulos[i] = temporal
@@ -114,8 +115,9 @@ def insertarCodigo(newCodigo, index):
     else:
         temporal = codigos[izquierda]
         codigos[izquierda] = [newCodigo, index]
-        maxi = len(titulos)
-        for i in range((izquierda+1), maxi):
+        print(izquierda, " CODIGO ", derecha)
+        maxi = len(codigos)
+        for i in range((izquierda), maxi):
             aux = codigos[i]
             codigos[i] = temporal
             temporal = aux
