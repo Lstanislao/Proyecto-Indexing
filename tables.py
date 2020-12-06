@@ -125,10 +125,3 @@ def insertarCodigo(newCodigo, index):
     print('codigos: ', codigos)
 
 
-ordenarTitulos()
-seguir = 1
-while seguir != 0:
-    agregarPelicula()
-    print("peliculas: ", peliculas)
-    seguir = int(input("si no desea seguir agregado coloque 0"))
-print(peliculas)
