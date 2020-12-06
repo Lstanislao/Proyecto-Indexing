@@ -36,7 +36,4 @@ def pedirPelicula():
     titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
     alquiler = pedirEntero(
         'Ingrese el costo diario del alquieler de la pelicula: ', 5)
-    return [True, codigo, titulo, alquiler, -1]
-
-
-
+    return ["", codigo, titulo, alquiler, -1]

@@ -46,15 +46,24 @@ def ordenarTitulos():
     global titulos
     titulos = sorted(titulos, key=lambda fila: fila[0])
 
+# @ recibe codigo o palabra y devuelve el index dode esta en su respectiva tabla y con este se puede sacr el indice dond eesta en peliculas
 
-def buscar(buscado, arreglo):
+
+def buscar(buscado, arreglo, consulta=False):
+    global peliculas
     izquierda = 0
     derecha = len(arreglo) - 1
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = arreglo[mitad][0]
+        indice = arreglo[mitad][1]
+        # print(indice)
+        # print(peliculas[indice][0])
         if elementoDelMedio == buscado:
-            return mitad
+            if not consulta:
+                return mitad
+            elif peliculas[indice][0] != "*":
+                return mitad
         if buscado < elementoDelMedio:
             derecha = mitad - 1
         else:
@@ -67,29 +76,20 @@ def insertarTitulo(newPalabra, index):
     # AQUI CREO QUE NO SE PUEDE HACER UN SOLO PROCEDDIMIENTO PARA INSERTAR TANTAO CODIGO COMO TITULO PORQUE NECESITAS MODIFICAR LA VARIABLE GLOBAL
     izquierda = 0
     derecha = len(titulos) - 1
-    # medio = (izquierda + derecha) // 2
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = titulos[mitad][0]
-        if elementoDelMedio == newPalabra:
-            return mitad
         if newPalabra < elementoDelMedio:
             derecha = mitad - 1
         else:
             izquierda = mitad + 1
-    # print('soy izquierda ', izquierda)
-    # print('soy derecha ', derecha)
     # INSERTAR Y ACOMODAR LOS INDICES
     if izquierda >= len(titulos) or len(titulos) == 0:
         titulos.append([newPalabra, [index]])
     else:
         temporal = titulos[izquierda]
         titulos[izquierda] = [newPalabra, [index]]
-        # print(temporal)
         maxi = len(titulos)
-        # print(maxi)
-        # print(izquierda+1)
-        print(izquierda, " TITULO ", derecha)
         for i in range((izquierda+1), maxi):
             aux = titulos[i]
             titulos[i] = temporal
@@ -104,8 +104,6 @@ def insertarCodigo(newCodigo, index):
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = codigos[mitad][0]
-        if elementoDelMedio == newCodigo:
-            return mitad
         if newCodigo < elementoDelMedio:
             derecha = mitad - 1
         else:
@@ -115,13 +113,31 @@ def insertarCodigo(newCodigo, index):
     else:
         temporal = codigos[izquierda]
         codigos[izquierda] = [newCodigo, index]
-        print(izquierda, " CODIGO ", derecha)
         maxi = len(codigos)
-        for i in range((izquierda), maxi):
+        for i in range((izquierda+1), maxi):
             aux = codigos[i]
             codigos[i] = temporal
             temporal = aux
         codigos.append(temporal)
     print('codigos: ', codigos)
 
+
+def eliminarPelicula(codigo):
+    global codigos
+    global peliculas
+    fila = buscar(codigo, codigos)
+    peliculas[fila[1]][0] = "*"
+
+
+def packing():
+    for pelicula in peliculas:
+        if pelicula[0] == "*":
+            eliminarTitulo = pelicula[2]
+            eliminarCodigo = pelicula[1]
+
+
+# def eliminarTitulo(titulo):
+#    palabras = titulo.split(" ")
+#    for palabras in titulo:
+#      buscar(palabra,titulos)
 

@@ -30,4 +30,13 @@ while menu:
     else:
         menu = False
 
+# seguir = 1
+# while seguir == 1:
+#     agregarPelicula()
+#     print(peliculas)
+#     seguir = int(input("seguir? "))
+#     busqueda = int(input("codigo que desea buscar"))
+#     print(buscar(busqueda, codigos))
 
+# eliminarPelicula(11111)
+# print(peliculas)
