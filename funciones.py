@@ -22,7 +22,7 @@ def pedirString(messages, maxi):
     while not valido:
         entrada = input(messages)
         entradaValidar = entrada.replace(" ", '')
-        if entradaValidar.isalnum() == True and len(entrada) <= 30:
+        if entradaValidar.isalnum() == True and len(entrada) <= maxi:
             valido = True
         else:
             print('''
@@ -30,6 +30,17 @@ def pedirString(messages, maxi):
             ''')
     return entrada
 
+def pedirPalabras():
+    valido = False
+    listaPalabras = []
+    while not valido:
+        palabras = pedirString("\nIngrese una o dos palabras del titulo de la pelicula a consultar: ", 30)
+        listaPalabras = palabras.lower().split(" ")
+        if len(listaPalabras) == 1 or len(listaPalabras) == 2:
+            valido = True
+        else:
+            print("\nInvalido. Solo se puede ingresar una o dos palabras.")
+    return listaPalabras
 
 def pedirCodigo(mensaje):
     return pedirEntero(mensaje, 5)
