@@ -1,5 +1,4 @@
 from tables import*
-from funciones import*
 from prettytable import PrettyTable
 
 menu = True
@@ -13,7 +12,7 @@ while menu:
         # eliminarPelicula()
         print("\n\nMovie DELETED SUCCESSFULLY!\n\n")
     elif decision == "3":
-        busqueda = input("If you wanna search by CODE, type 1\nIf you wanna search by TWO WORDS, type 2\n")
+        busqueda = input("If you wanna search by CODE, type 1\nIf you wanna search by ONE OR TWO WORDS, type 2\n")
         if busqueda == "1":
             # checkCodePelicula()
             pass
@@ -22,16 +21,16 @@ while menu:
             pass
         print("\n\nMovie CHECKED SUCCESSFULLY!\n\n")
     elif decision == "4":
+       
+        rentarPelicula()
+        print("\n\nRENT SUCCESSFUL!\n\n")
+        
+    elif decision == "5":
         # devolverPelicula()
         print("\n\nMovie RETURNED SUCCESSFULLY!\n\n")
-    elif decision == "5":
-        # pack()
-        print("\n\nPACKING SUCCESSFUL!\n\n")
     elif decision == "6":
-        socio = int(input("ingrese socio "))
-        pelicula = int(input("ingrese codigo de pelicula "))
-        rentarPelicula(socio, pelicula)
-        print("\n\nRENT SUCCESSFUL!\n\n")
+       # pack()
+        print("\n\nPACKING SUCCESSFUL!\n\n")
     else:
         menu = False
 

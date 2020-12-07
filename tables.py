@@ -1,4 +1,4 @@
-from funciones import pedirPelicula
+from funciones import pedirPelicula, pedirDatosRenta
 
 peliculas = [
 ]
@@ -30,7 +30,7 @@ def agregarTitulo(titulo, index):
             posicion = buscar(palabra, titulos)
             print('posicion ', posicion)
             print(0 == False)
-            if posicion == False: #ARREGLAR: si el indice es 0, lo toma como falso
+            if posicion == -1: #ARREGLAR: si el indice es 0, lo toma como falso
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
@@ -70,7 +70,7 @@ def buscar(buscado, arreglo, consulta=False):
             derecha = mitad - 1
         else:
             izquierda = mitad + 1
-    return False
+    return -1
 
 
 def insertarTitulo(newPalabra, index):
@@ -129,7 +129,11 @@ def eliminarPelicula(codigo):
     global codigos
     global peliculas
     fila = buscar(codigo, codigos)
-    peliculas[fila[1]][0] = "*"
+    if fila != -1:
+        peliculas[fila[1]][0] = "*"
+    else:
+        print('No se encontro la peli')
+    
 
 
 def packing():
@@ -144,15 +148,17 @@ def packing():
 #    for palabras in titulo:
 #      buscar(palabra,titulos)
 
-def rentarPelicula(socio, codigo):
+def rentarPelicula():
     global peliculas
     global codigos
-    indice = buscar(codigo, codigos, True)
+
+    info = pedirDatosRenta()
+    indice = buscar(info[1], codigos, True)
     
-    if indice: #si el indice es 0 no sirve
+    if indice != -1: #si el indice es 0 no sirve
         indicePelicula = codigos[indice][1]
         if peliculas[indicePelicula][4] == -1:
-            peliculas[indicePelicula][4] = socio
+            peliculas[indicePelicula][4] = info[0]
             print(peliculas)
             print('ha rentado ', peliculas[indicePelicula][2])
     else:

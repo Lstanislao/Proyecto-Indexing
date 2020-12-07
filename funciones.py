@@ -8,7 +8,7 @@ def pedirEntero(message, maxi):
                 num = int(input(message))
                 lenght = len(str(num))
                 if lenght < maxi:
-                    print('El numero ingresado debe ser de logintud: ', maxi)
+                    print('El numero ingresado debe ser de logintud maxima: ', maxi)
             valido = True
         except ValueError:
             print('''
@@ -26,7 +26,7 @@ def pedirString(messages, maxi):
             valido = True
         else:
             print('''
-             Invalido
+             Invalido. Se pueden ingresar como maximo 30 caracteres.
             ''')
     return entrada
 
@@ -35,5 +35,10 @@ def pedirPelicula():
     codigo = pedirEntero("Ingrese el codigo de la pelicula: ", 5)
     titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
     alquiler = pedirEntero(
-        'Ingrese el costo diario del alquieler de la pelicula: ', 5)
+        'Ingrese el costo diario del alquiler de la pelicula: ', 8)
     return ["", codigo, titulo, alquiler, -1]
+
+def pedirDatosRenta():
+    socio = pedirEntero("Ingrese su numero de socio: ", 5)
+    pelicula = pedirEntero("Ingrese el codigo de la pelicula que desea rentar: ", 5)
+    return socio, pelicula
