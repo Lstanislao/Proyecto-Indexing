@@ -1,4 +1,4 @@
-from funciones import pedirPelicula, pedirDatosRenta
+from funciones import pedirPelicula, pedirDatosRenta, pedirCodigo
 
 peliculas = [
 ]
@@ -125,14 +125,18 @@ def insertarCodigo(newCodigo, index):
     print('codigos: ', codigos)
 
 
-def eliminarPelicula(codigo):
+def eliminarPelicula():
     global codigos
     global peliculas
-    fila = buscar(codigo, codigos)
+
+    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea eliminar: ")
+    fila = buscar(codigo, codigos, True)
     if fila != -1:
-        peliculas[fila[1]][0] = "*"
+        indicePelicula = codigos[fila][1]
+        peliculas[indicePelicula][0] = "*"
     else:
-        print('No se encontro la peli')
+        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        return False
     
 
 
@@ -155,11 +159,39 @@ def rentarPelicula():
     info = pedirDatosRenta()
     indice = buscar(info[1], codigos, True)
     
-    if indice != -1: #si el indice es 0 no sirve
+    if indice != -1:
         indicePelicula = codigos[indice][1]
+        nombre = peliculas[indicePelicula][2].capitalize()
         if peliculas[indicePelicula][4] == -1:
             peliculas[indicePelicula][4] = info[0]
             print(peliculas)
-            print('ha rentado ', peliculas[indicePelicula][2])
+            print("Ha rentado '{}'.".format(nombre))
+            return True
+        else:
+            print("La pelicula '{}' ya se encuentra alquilada.".format(nombre))
+            return False
     else:
-        print('peli no esta registrada')
+        print('No hay una pelicula registrada con el codigo ingresado.')
+        return False
+
+def devolverPelicula():
+    global peliculas
+    global codigos
+
+    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea devolver: ")
+    indice = buscar(codigo, codigos, True)
+    
+    if indice != -1:
+        indicePelicula = codigos[indice][1]
+        nombre = peliculas[indicePelicula][2].capitalize()
+        if peliculas[indicePelicula][4] != -1:
+            peliculas[indicePelicula][4] = -1
+            print(peliculas)
+            print("\nHa devuelto '{}'.".format(nombre))
+            return True
+        else:
+            print("\nLa pelicula '{}' no esta alquilada y no puede ser devuelta.".format(nombre))
+            return False
+    else:
+        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        return False

@@ -4,10 +4,10 @@ def pedirEntero(message, maxi):
         try:
             lenght = 0
             num = 0
-            while (lenght < maxi):
+            while (lenght > maxi or lenght == 0):
                 num = int(input(message))
                 lenght = len(str(num))
-                if lenght < maxi:
+                if (lenght > maxi or lenght == 0):
                     print('El numero ingresado debe ser de logintud maxima: ', maxi)
             valido = True
         except ValueError:
@@ -38,7 +38,11 @@ def pedirPelicula():
         'Ingrese el costo diario del alquiler de la pelicula: ', 8)
     return ["", codigo, titulo, alquiler, -1]
 
+def pedirCodigo(mensaje):
+     return pedirEntero(mensaje, 5)
+     
 def pedirDatosRenta():
     socio = pedirEntero("Ingrese su numero de socio: ", 5)
-    pelicula = pedirEntero("Ingrese el codigo de la pelicula que desea rentar: ", 5)
+    pelicula = pedirCodigo("Ingrese el codigo de la pelicula que desea rentar: ")
     return socio, pelicula
+
