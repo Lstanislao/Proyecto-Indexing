@@ -125,7 +125,7 @@ def insertarCodigo(newCodigo, index):
     print('codigos: ', codigos)
 
 
-'''def eliminarPelicula(codigo):
+def eliminarPelicula(codigo):
     global codigos
     global peliculas
     fila = buscar(codigo, codigos)
@@ -143,4 +143,4 @@ def packing():
 #    palabras = titulo.split(" ")
 #    for palabras in titulo:
 #      buscar(palabra,titulos)
-'''
+
