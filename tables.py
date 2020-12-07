@@ -1,4 +1,4 @@
-from funciones import pedirPelicula
+from funciones import pedirPelicula, pedirDatosRenta
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
@@ -35,7 +35,9 @@ def agregarTitulo(titulo, index):
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
-            if posicion == -1:
+            print('posicion ', posicion)
+            print(0 == False)
+            if posicion == -1:  # ARREGLAR: si el indice es 0, lo toma como falso
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
@@ -86,6 +88,7 @@ def insertarTitulo(newPalabra, index):
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = titulos[mitad][0]
+
         if newPalabra < elementoDelMedio:
             derecha = mitad - 1
         else:
@@ -195,3 +198,20 @@ def compactar(index):
         for j in range(len(titulos[i][1])):
             if titulos[i][1][j] > index:
                 titulos[i][1][j] = (titulos[i][1][j])-1
+
+
+def rentarPelicula():
+    global peliculas
+    global codigos
+
+    info = pedirDatosRenta()
+    indice = buscar(info[1], codigos, True)
+
+    if indice != -1:  # si el indice es 0 no sirve
+        indicePelicula = codigos[indice][1]
+        if peliculas[indicePelicula][4] == -1:
+            peliculas[indicePelicula][4] = info[0]
+            print(peliculas)
+            print('ha rentado ', peliculas[indicePelicula][2])
+    else:
+        print('peli no esta registrada')
