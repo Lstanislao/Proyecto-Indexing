@@ -1,15 +1,13 @@
-
-
 def pedirEntero(message, maxi):
     valido = False
     while not valido:
         try:
             lenght = 0
             num = 0
-            while (lenght < maxi):
+            while (lenght > maxi or lenght == 0):
                 num = int(input(message))
                 lenght = len(str(num))
-                if lenght < maxi:
+                if (lenght > maxi or lenght == 0):
                     print('El numero ingresado debe ser de logintud maxima: ', maxi)
             valido = True
         except ValueError:
@@ -33,32 +31,12 @@ def pedirString(messages, maxi):
     return entrada
 
 
-'''def pedirPelicula():
-    valido = False
-    while not valido:
-        codigo = pedirEntero("Ingrese el codigo de la pelicula: ", 5)
-        if buscar(codigo, codigos, True) == -1:
-            valido = True
-        else:
-            print("Ya existe uuna pelicula con ese codigo")
-    valido = False
-    while not valido:
-        titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
-        titulo = titulo.lower()
-        palabras = titulo.split(" ")
-        for palabra in palabras:
-            print(buscar(palabra, titulos, True))
-            if buscar(palabra, titulos, True) == -1:
-                valido = True
-        if not valido:
-            print('Ya existe una pelicula con este mismo titulo')
-    alquiler = pedirEntero(
-        'Ingrese el costo diario del alquiler de la pelicula: ', 8)
-    return ["", codigo, titulo, alquiler, -1]'''
+def pedirCodigo(mensaje):
+    return pedirEntero(mensaje, 5)
 
 
 def pedirDatosRenta():
     socio = pedirEntero("Ingrese su numero de socio: ", 5)
-    pelicula = pedirEntero(
-        "Ingrese el codigo de la pelicula que desea rentar: ", 5)
+    pelicula = pedirCodigo(
+        "Ingrese el codigo de la pelicula que desea rentar: ")
     return socio, pelicula

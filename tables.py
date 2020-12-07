@@ -1,4 +1,5 @@
-from funciones import pedirDatosRenta, pedirEntero, pedirString
+from funciones import pedirDatosRenta, pedirEntero, pedirString, pedirDatosRenta, pedirCodigo
+
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
@@ -32,7 +33,6 @@ def pedirPelicula():
         titulo = titulo.lower()
         palabras = titulo.split(" ")
         for palabra in palabras:
-            print(buscar(palabra, titulos))
             if buscar(palabra, titulos) == -1:
                 valido = True
         if not valido:
@@ -61,18 +61,14 @@ def agregarTitulo(titulo, index):
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
-            #print('posicion ', posicion)
-            #print(0 == False)
-            if posicion == -1:  # ARREGLAR: si el indice es 0, lo toma como falso
+            if posicion == -1:
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
                 newIndices = []
-                # print(indices)
                 for indice in indices:
                     newIndices.append(indice)
                 newIndices.append(index)
-                # print(newIndices)
                 titulos[posicion][1] = newIndices
     print('titulos: ', titulos)
 
@@ -92,8 +88,6 @@ def buscar(buscado, arreglo, consulta=False):
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = arreglo[mitad][0]
         indice = arreglo[mitad][1]
-        # print(indice)
-        # print(peliculas[indice][0])
         if elementoDelMedio == buscado:
             if not consulta:
                 return mitad
@@ -108,7 +102,6 @@ def buscar(buscado, arreglo, consulta=False):
 
 def insertarTitulo(newPalabra, index):
     global titulos
-    # AQUI CREO QUE NO SE PUEDE HACER UN SOLO PROCEDDIMIENTO PARA INSERTAR TANTAO CODIGO COMO TITULO PORQUE NECESITAS MODIFICAR LA VARIABLE GLOBAL
     izquierda = 0
     derecha = len(titulos) - 1
     while izquierda <= derecha:
@@ -118,7 +111,6 @@ def insertarTitulo(newPalabra, index):
             derecha = mitad - 1
         else:
             izquierda = mitad + 1
-    # INSERTAR Y ACOMODAR LOS INDICES
     if izquierda >= len(titulos) or len(titulos) == 0:
         titulos.append([newPalabra, [index]])
     else:
@@ -157,12 +149,19 @@ def insertarCodigo(newCodigo, index):
     print('codigos: ', codigos)
 
 
-def eliminarPelicula(codigo):
+def eliminarPelicula():
     global codigos
     global peliculas
-    index = codigos[buscar(codigo, codigos)][1]
-    print(index)
-    peliculas[index][0] = "*"
+    codigo = pedirCodigo(
+        "\nIngrese el codigo de la pelicula que desea eliminar: ")
+    fila = buscar(codigo, codigos, True)
+    if fila != -1:
+        indicePelicula = codigos[fila][1]
+        peliculas[indicePelicula][0] = "*"
+        return True
+    else:
+        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        return False
 
 
 def packing():
@@ -173,7 +172,6 @@ def packing():
         print("PELICULA ", pelicula)
         if pelicula[0] == "*":
             if i == (len(peliculas)-1):
-                print("HOLA")
                 i = i+1
             index = peliculas.index(pelicula)
             eliminarTitulo((pelicula[2].lower()), index)
@@ -182,14 +180,6 @@ def packing():
             compactar(index)
         else:
             i = i+1
-    '''for pelicula in peliculas:
-        print("PELICULA ", pelicula)
-        if pelicula[0] == "*":
-            index = peliculas.index(pelicula)
-            eliminarTitulo((pelicula[2].lower()), index)
-            eliminarCodigo(pelicula[1])
-            peliculas.remove(pelicula)
-            compactar(index)'''
 
 
 def eliminarTitulo(titulo, index):
@@ -232,11 +222,42 @@ def rentarPelicula():
     info = pedirDatosRenta()
     indice = buscar(info[1], codigos, True)
 
-    if indice != -1:  # si el indice es 0 no sirve
+    if indice != -1:
         indicePelicula = codigos[indice][1]
+        nombre = peliculas[indicePelicula][2].capitalize()
         if peliculas[indicePelicula][4] == -1:
             peliculas[indicePelicula][4] = info[0]
             print(peliculas)
-            print('ha rentado ', peliculas[indicePelicula][2])
+            print("Ha rentado '{}'.".format(nombre))
+            return True
+        else:
+            print("La pelicula '{}' ya se encuentra alquilada.".format(nombre))
+            return False
     else:
-        print('peli no esta registrada')
+        print('No hay una pelicula registrada con el codigo ingresado.')
+        return False
+
+
+def devolverPelicula():
+    global peliculas
+    global codigos
+
+    codigo = pedirCodigo(
+        "\nIngrese el codigo de la pelicula que desea devolver: ")
+    indice = buscar(codigo, codigos, True)
+
+    if indice != -1:
+        indicePelicula = codigos[indice][1]
+        nombre = peliculas[indicePelicula][2].capitalize()
+        if peliculas[indicePelicula][4] != -1:
+            peliculas[indicePelicula][4] = -1
+            print(peliculas)
+            print("\nHa devuelto '{}'.".format(nombre))
+            return True
+        else:
+            print(
+                "\nLa pelicula '{}' no esta alquilada y no puede ser devuelta.".format(nombre))
+            return False
+    else:
+        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        return False
