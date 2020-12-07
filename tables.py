@@ -1,4 +1,4 @@
-from funciones import pedirPelicula, pedirDatosRenta
+from funciones import pedirDatosRenta, pedirEntero, pedirString
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
@@ -17,6 +17,31 @@ codigos = [
 ]
 
 
+def pedirPelicula():
+    valido = False
+    while not valido:
+        codigo = pedirEntero("Ingrese el codigo de la pelicula: ", 5)
+        print(buscar(codigo, codigos))
+        if buscar(codigo, codigos) == -1:
+            valido = True
+        else:
+            print("Ya existe uuna pelicula con ese codigo")
+    valido = False
+    while not valido:
+        titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
+        titulo = titulo.lower()
+        palabras = titulo.split(" ")
+        for palabra in palabras:
+            print(buscar(palabra, titulos))
+            if buscar(palabra, titulos) == -1:
+                valido = True
+        if not valido:
+            print('Ya existe una pelicula con este mismo titulo')
+    alquiler = pedirEntero(
+        'Ingrese el costo diario del alquiler de la pelicula: ', 8)
+    return ["", codigo, titulo, alquiler, -1]
+
+
 def agregarPelicula():
     global peliculas
     peli = pedirPelicula()
@@ -32,21 +57,22 @@ def agregarTitulo(titulo, index):
     global titulos
     print(titulos)
     palabras = titulo.split(" ")
+    palabras = list(set(palabras))
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
-            print('posicion ', posicion)
-            print(0 == False)
+            #print('posicion ', posicion)
+            #print(0 == False)
             if posicion == -1:  # ARREGLAR: si el indice es 0, lo toma como falso
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
                 newIndices = []
-                print(indices)
+                # print(indices)
                 for indice in indices:
                     newIndices.append(indice)
                 newIndices.append(index)
-                print(newIndices)
+                # print(newIndices)
                 titulos[posicion][1] = newIndices
     print('titulos: ', titulos)
 
