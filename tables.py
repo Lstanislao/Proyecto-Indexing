@@ -1,12 +1,19 @@
 from funciones import pedirPelicula
 
 peliculas = [
+    ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
+                                                                                             12564, -1], ['', 85203, 'la princesa y el sapo', 12651, -1], ['*', 12378, 'furisos sapo y la bestia', 12564, -1]
+
 ]
 
 titulos = [
+
+    ['2', [1]], ['bella', [2]], ['bestia', [2, 4]], ['el', [0, 3]], ['furiosos', [1]], ['furisos', [4]], ['la', [2, 2, 3, 4]], ['leon',
+                                                                                                                                [0]], ['princesa', [3]], ['rapidos', [1]], ['rey', [0]], ['sapo', [3, 4]], ['y', [1, 2, 3, 4]]
 ]
 
 codigos = [
+    [10000, 1], [11111, 0], [12378, 4], [55555, 2], [85203, 3]
 ]
 
 
@@ -28,7 +35,7 @@ def agregarTitulo(titulo, index):
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
-            if posicion == False:
+            if posicion == -1:
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
@@ -68,7 +75,7 @@ def buscar(buscado, arreglo, consulta=False):
             derecha = mitad - 1
         else:
             izquierda = mitad + 1
-    return False
+    return -1
 
 
 def insertarTitulo(newPalabra, index):
@@ -122,22 +129,69 @@ def insertarCodigo(newCodigo, index):
     print('codigos: ', codigos)
 
 
-'''def eliminarPelicula(codigo):
+def eliminarPelicula(codigo):
     global codigos
     global peliculas
-    fila = buscar(codigo, codigos)
-    peliculas[fila[1]][0] = "*"
+    index = codigos[buscar(codigo, codigos)][1]
+    print(index)
+    peliculas[index][0] = "*"
 
 
 def packing():
-    for pelicula in peliculas:
+    global peliculas
+    i = 0
+    while i < len(peliculas):
+        pelicula = peliculas[i]
+        print("PELICULA ", pelicula)
         if pelicula[0] == "*":
-            eliminarTitulo = pelicula[2]
-            eliminarCodigo = pelicula[1]
+            if i == (len(peliculas)-1):
+                print("HOLA")
+                i = i+1
+            index = peliculas.index(pelicula)
+            eliminarTitulo((pelicula[2].lower()), index)
+            eliminarCodigo(pelicula[1])
+            peliculas.remove(pelicula)
+            compactar(index)
+        else:
+            i = i+1
+    '''for pelicula in peliculas:
+        print("PELICULA ", pelicula)
+        if pelicula[0] == "*":
+            index = peliculas.index(pelicula)
+            eliminarTitulo((pelicula[2].lower()), index)
+            eliminarCodigo(pelicula[1])
+            peliculas.remove(pelicula)
+            compactar(index)'''
 
 
-# def eliminarTitulo(titulo):
-#    palabras = titulo.split(" ")
-#    for palabras in titulo:
-#      buscar(palabra,titulos)
-'''
+def eliminarTitulo(titulo, index):
+    global titulos
+    palabras = titulo.split(" ")
+    for palabra in palabras:
+        aux = buscar(palabra, titulos)
+        if len(titulos[aux][1]) > 1:
+            newIndex = []
+            for i in titulos[aux][1]:
+                if i != index:
+                    newIndex.append(i)
+            titulos[aux][1] = newIndex
+        else:
+            titulos.pop(aux)
+
+
+def eliminarCodigo(codigo):
+    global codigos
+    index = buscar(codigo, codigos)
+    codigos.pop(index)
+
+
+def compactar(index):
+    global titulos
+    global codigos
+    for codigo in codigos:
+        if codigo[1] > index:
+            codigo[1] = codigo[1]-1
+    for i in range(len(titulos)):
+        for j in range(len(titulos[i][1])):
+            if titulos[i][1][j] > index:
+                titulos[i][1][j] = (titulos[i][1][j])-1

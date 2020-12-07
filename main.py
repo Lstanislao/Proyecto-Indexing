@@ -2,16 +2,30 @@ from tables import*
 from funciones import*
 from prettytable import PrettyTable
 
-''''seguir = 1
-while seguir == 1:
+seguir = 1
+'''while seguir == 1:
     agregarPelicula()
     print(peliculas)
     seguir = int(input("seguir? "))
-    busqueda = int(input("codigo que desea buscar"))
-    print(buscar(busqueda, codigos))
+    #busqueda = int(input("codigo que desea buscar"))
+    #print(buscar(busqueda, codigos))
+    print(peliculas)
 
-eliminarPelicula(11111)
-print(peliculas)'''
+
+seguir = 1
+while seguir == 1:
+    eliminarPelicula(int(input("que vas a eliminar")))
+    print(peliculas)
+    print(codigos)
+    print(titulos)
+    print(peliculas)
+    seguir = int(input("seguir? "))'''
+
+print(peliculas)
+packing()
+print(codigos)
+print(titulos)
+print(peliculas)
 
 
 menu = True
