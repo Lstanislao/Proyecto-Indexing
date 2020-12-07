@@ -2,7 +2,7 @@ from funciones import *
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
-                                                                                             12564, -1], ['', 85203, 'la princesa y el sapo', 12651, -1], ['*', 12378, 'furisos sapo y la bestia', 12564, -1]
+                                                                                             12564, -1], ['', 85203, 'la princesa y el sapo', 12651, -1], ['', 12378, 'furisos sapo y la bestia', 12564, -1]
 
 ]
 
@@ -20,24 +20,24 @@ codigos = [
 def pedirPelicula():
     valido = False
     while not valido:
-        codigo = pedirEntero("Ingrese el codigo de la pelicula: ", 5)
+        codigo = pedirEntero("\nIngrese el codigo de la pelicula: ", 5)
         print(buscar(codigo, codigos))
         if buscar(codigo, codigos) == -1:
             valido = True
         else:
-            print("Ya existe uuna pelicula con ese codigo")
+            print("\nYa existe una pelicula con ese codigo.")
     valido = False
     while not valido:
-        titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
+        titulo = pedirString('\nIngrese el nombre de la pelicula: ', 30)
         titulo = titulo.lower()
         palabras = titulo.split(" ")
         for palabra in palabras:
             if buscar(palabra, titulos) == -1:
                 valido = True
         if not valido:
-            print('Ya existe una pelicula con este mismo titulo')
+            print('\nYa existe una pelicula con este mismo titulo.')
     alquiler = pedirEntero(
-        'Ingrese el costo diario del alquiler de la pelicula: ', 8)
+        '\nIngrese el costo diario del alquiler de la pelicula: ', 8)
     return ["", codigo, titulo, alquiler, -1]
 
 
@@ -157,6 +157,8 @@ def eliminarPelicula():
     if fila != -1:
         indicePelicula = codigos[fila][1]
         peliculas[indicePelicula][0] = "*"
+        nombre = peliculas[indicePelicula][2].capitalize()
+        print("\nLa pelicula '{}' se ha borrado.".format(nombre))
         return True
     else:
         print("\nNo hay una pelicula registrada con el codigo ingresado.")
@@ -165,6 +167,9 @@ def eliminarPelicula():
 
 def packing():
     global peliculas
+    print(peliculas)
+    print(codigos)
+    print(titulos)
     i = 0
     while i < len(peliculas):
         pelicula = peliculas[i]
@@ -179,6 +184,9 @@ def packing():
             compactar(index)
         else:
             i = i+1
+    print(peliculas)
+    print(codigos)
+    print(titulos)
 
 
 def eliminarTitulo(titulo, index):
@@ -215,6 +223,11 @@ def compactar(index):
 
 
 def rentarPelicula():
+    '''
+    Funcion que pide el numero de socio y el codigo de la pelicula a rentar. En caso de que la pelicula
+    exista y no este alquilada, se alquila al socio. En caso contrario, se muestra un mensaje indicando
+    que esta alquilada o que no existe.
+    '''
     global peliculas
     global codigos
 
@@ -227,17 +240,22 @@ def rentarPelicula():
         if peliculas[indicePelicula][4] == -1:
             peliculas[indicePelicula][4] = info[0]
             print(peliculas)
-            print("Ha rentado '{}'.".format(nombre))
+            print("\nHa rentado '{}'.".format(nombre))
             return True
         else:
-            print("La pelicula '{}' ya se encuentra alquilada.".format(nombre))
+            print("\nLa pelicula '{}' ya se encuentra alquilada.".format(nombre))
             return False
     else:
-        print('No hay una pelicula registrada con el codigo ingresado.')
+        print('\nNo hay una pelicula registrada con el codigo ingresado.')
         return False
 
 
 def devolverPelicula():
+    '''
+    Funcion que pide el codigo de la pelicula a devolver. En caso de que la pelicula
+    exista y este alquilada, se acepta la devolucion. En caso contrario, se muestra un mensaje indicando
+    que no esta alquilada o que no existe.
+    '''
     global peliculas
     global codigos
 
@@ -261,7 +279,12 @@ def devolverPelicula():
         print("\nNo hay una pelicula registrada con el codigo ingresado.")
         return False
 
+
 def consultaPorCodigo():
+    '''
+    Funcion que pide el codigo de la pelicula y ve si existe. Si existe, muestra si esta alquilada o no. 
+    Si no, muestra que no hay una pelicula con ese codigo.
+    '''
     global peliculas
     global codigos
 
@@ -285,6 +308,11 @@ def consultaPorCodigo():
         
 
 def consultaPorPalabras():
+    '''
+    Funcion que pide una o dos palabras del titulo de la pelicula y ve si hay peliculas cuyo
+    titulo las contenga. Si hay, muestra si estan alquiladas o no. Si no, muestra que no hay
+    una pelicula con ese codigo.
+    '''
     global peliculas
     global titulos
 
