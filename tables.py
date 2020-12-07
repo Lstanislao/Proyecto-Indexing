@@ -1,4 +1,4 @@
-from funciones import pedirPelicula, pedirDatosRenta, pedirCodigo
+from funciones import pedirPelicula, pedirDatosRenta, pedirCodigo, pedirPalabras
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
@@ -251,3 +251,68 @@ def devolverPelicula():
     else:
         print("\nNo hay una pelicula registrada con el codigo ingresado.")
         return False
+
+def  consultaPorCodigo():
+    global peliculas
+    global codigos
+
+    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea consultar: ")
+    indice = buscar(codigo, codigos, True)
+    
+    print("\nRESULTADOS DE BUSQUEDA:\n")
+    if indice != -1:
+        indicePelicula = codigos[indice][1]
+        nombre = peliculas[indicePelicula][2].capitalize()
+        if peliculas[indicePelicula][4] != -1:
+            print(peliculas)
+            print("\nLa pelicula '{}' se encuentra alquilada.".format(nombre)) 
+            return True     
+        else:
+            print("\nLa pelicula '{}' no esta alquilada.".format(nombre))     
+            return False 
+    else:
+        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        return False
+        
+
+def consultaPorPalabras():
+    global peliculas
+    global titulos
+
+    palabras = pedirPalabras()
+    peliculaPedida = []
+
+    print("\nRESULTADOS DE BUSQUEDA:\n")
+    for i in range(len(palabras)):
+        peliculasTemp = []
+        indice = buscar(palabras[i], titulos)
+        if indice != -1:
+            if i == 0:
+                for index in titulos[indice][1]:
+                    if peliculas[index][0] != "*":
+                        peliculaPedida.append(index)
+            else:
+                for index in titulos[indice][1]:
+                    if peliculaPedida.count(index):
+                        peliculasTemp.append(index)
+                peliculaPedida = peliculasTemp
+        else:
+            print("\nNo hay una pelicula registrada cuyo titulo contenga esa(s) palabra(s).")
+            return False
+
+    if len(peliculaPedida):
+        for indicePelicula in peliculaPedida:
+            nombre = peliculas[indicePelicula][2].capitalize()
+            if peliculas[indicePelicula][4] != -1:
+                print(peliculas)
+                print("\n   La pelicula '{}' se encuentra alquilada.".format(nombre))      
+            else:
+                print("\n   La pelicula '{}' no esta alquilada.".format(nombre)) 
+        return True
+    else:
+        print("\nNo hay una pelicula registrada cuyo titulo contenga esa(s) palabra(s).")
+        return False
+    
+
+
+
