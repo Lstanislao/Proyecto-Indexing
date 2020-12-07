@@ -28,7 +28,9 @@ def agregarTitulo(titulo, index):
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
-            if posicion == False:
+            print('posicion ', posicion)
+            print(0 == False)
+            if posicion == False: #ARREGLAR: si el indice es 0, lo toma como falso
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
@@ -79,6 +81,7 @@ def insertarTitulo(newPalabra, index):
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = titulos[mitad][0]
+
         if newPalabra < elementoDelMedio:
             derecha = mitad - 1
         else:
