@@ -4,7 +4,7 @@ from prettytable import PrettyTable
 
 menu = True
 while menu:
-    decision = input("Welcome to Blockbuster's System! \n\n  If you wanna ADD A NEW MOVIE, type 1\n\n  If you wanna DELETE A MOVIE, type 2\n\n  If you wanna CHECK IF A MOVIE IS RENTED, type 3\n\n  If you wanna RETURN A MOVIE, type 4\n\n  Type 5 to PACK\n\n  Type any other thing to EXIT\n\n")
+    decision = input("Welcome to Blockbuster's System! \n\n  If you wanna ADD A NEW MOVIE, type 1\n\n  If you wanna DELETE A MOVIE, type 2\n\n  If you wanna CHECK IF A MOVIE IS RENTED, type 3\n\n  If you wanna RETURN A MOVIE, type 4\n\n  Type 5 to PACK\n\n  Type 6 to RENT A MOVIE\n\n  Type any other thing to EXIT\n\n")
     
     if decision == "1":
         agregarPelicula()
@@ -27,6 +27,11 @@ while menu:
     elif decision == "5":
         # pack()
         print("\n\nPACKING SUCCESSFUL!\n\n")
+    elif decision == "6":
+        socio = int(input("ingrese socio "))
+        pelicula = int(input("ingrese codigo de pelicula "))
+        rentarPelicula(socio, pelicula)
+        print("\n\nRENT SUCCESSFUL!\n\n")
     else:
         menu = False
 

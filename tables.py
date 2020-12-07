@@ -144,3 +144,16 @@ def packing():
 #    for palabras in titulo:
 #      buscar(palabra,titulos)
 
+def rentarPelicula(socio, codigo):
+    global peliculas
+    global codigos
+    indice = buscar(codigo, codigos, True)
+    
+    if indice: #si el indice es 0 no sirve
+        indicePelicula = codigos[indice][1]
+        if peliculas[indicePelicula][4] == -1:
+            peliculas[indicePelicula][4] = socio
+            print(peliculas)
+            print('ha rentado ', peliculas[indicePelicula][2])
+    else:
+        print('peli no esta registrada')
