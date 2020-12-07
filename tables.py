@@ -114,7 +114,6 @@ def insertarTitulo(newPalabra, index):
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = titulos[mitad][0]
-
         if newPalabra < elementoDelMedio:
             derecha = mitad - 1
         else:

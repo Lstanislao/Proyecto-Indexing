@@ -1,7 +1,7 @@
 from tables import*
 from prettytable import PrettyTable
 
-seguir = 1
+'''seguir = 1
 while seguir == 1:
     agregarPelicula()
     print(peliculas)
@@ -24,7 +24,7 @@ print(peliculas)
 packing()
 print(codigos)
 print(titulos)
-print(peliculas)
+print(peliculas)'''
 
 
 menu = True
