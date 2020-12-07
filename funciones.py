@@ -22,7 +22,7 @@ def pedirString(messages, maxi):
     while not valido:
         entrada = input(messages)
         entradaValidar = entrada.replace(" ", '')
-        if entradaValidar.isalnum() == True and len(entrada) <= 30:
+        if entradaValidar.isalnum() == True and len(entrada) <= maxi:
             valido = True
         else:
             print('''
@@ -30,19 +30,24 @@ def pedirString(messages, maxi):
             ''')
     return entrada
 
-
-def pedirPelicula():
-    codigo = pedirEntero("Ingrese el codigo de la pelicula: ", 5)
-    titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
-    alquiler = pedirEntero(
-        'Ingrese el costo diario del alquiler de la pelicula: ', 8)
-    return ["", codigo, titulo, alquiler, -1]
+def pedirPalabras():
+    valido = False
+    listaPalabras = []
+    while not valido:
+        palabras = pedirString("\nIngrese una o dos palabras del titulo de la pelicula a consultar: ", 30)
+        listaPalabras = palabras.lower().split(" ")
+        if len(listaPalabras) == 1 or len(listaPalabras) == 2:
+            valido = True
+        else:
+            print("\nInvalido. Solo se puede ingresar una o dos palabras.")
+    return listaPalabras
 
 def pedirCodigo(mensaje):
-     return pedirEntero(mensaje, 5)
-     
+    return pedirEntero(mensaje, 5)
+
+
 def pedirDatosRenta():
     socio = pedirEntero("Ingrese su numero de socio: ", 5)
-    pelicula = pedirCodigo("Ingrese el codigo de la pelicula que desea rentar: ")
+    pelicula = pedirCodigo(
+        "Ingrese el codigo de la pelicula que desea rentar: ")
     return socio, pelicula
-

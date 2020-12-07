@@ -1,4 +1,4 @@
-from funciones import pedirPelicula, pedirDatosRenta, pedirCodigo
+from funciones import *
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
@@ -17,6 +17,30 @@ codigos = [
 ]
 
 
+def pedirPelicula():
+    valido = False
+    while not valido:
+        codigo = pedirEntero("Ingrese el codigo de la pelicula: ", 5)
+        print(buscar(codigo, codigos))
+        if buscar(codigo, codigos) == -1:
+            valido = True
+        else:
+            print("Ya existe uuna pelicula con ese codigo")
+    valido = False
+    while not valido:
+        titulo = pedirString('Ingrese el nombre de la pelicula: ', 30)
+        titulo = titulo.lower()
+        palabras = titulo.split(" ")
+        for palabra in palabras:
+            if buscar(palabra, titulos) == -1:
+                valido = True
+        if not valido:
+            print('Ya existe una pelicula con este mismo titulo')
+    alquiler = pedirEntero(
+        'Ingrese el costo diario del alquiler de la pelicula: ', 8)
+    return ["", codigo, titulo, alquiler, -1]
+
+
 def agregarPelicula():
     global peliculas
     peli = pedirPelicula()
@@ -32,21 +56,18 @@ def agregarTitulo(titulo, index):
     global titulos
     print(titulos)
     palabras = titulo.split(" ")
+    palabras = list(set(palabras))
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
-            print('posicion ', posicion)
-            print(0 == False)
-            if posicion == -1:  # ARREGLAR: si el indice es 0, lo toma como falso
+            if posicion == -1:
                 insertarTitulo(palabra, index)
             else:
                 indices = titulos[posicion][1]
                 newIndices = []
-                print(indices)
                 for indice in indices:
                     newIndices.append(indice)
                 newIndices.append(index)
-                print(newIndices)
                 titulos[posicion][1] = newIndices
     print('titulos: ', titulos)
 
@@ -66,8 +87,6 @@ def buscar(buscado, arreglo, consulta=False):
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = arreglo[mitad][0]
         indice = arreglo[mitad][1]
-        # print(indice)
-        # print(peliculas[indice][0])
         if elementoDelMedio == buscado:
             if not consulta:
                 return mitad
@@ -82,18 +101,15 @@ def buscar(buscado, arreglo, consulta=False):
 
 def insertarTitulo(newPalabra, index):
     global titulos
-    # AQUI CREO QUE NO SE PUEDE HACER UN SOLO PROCEDDIMIENTO PARA INSERTAR TANTAO CODIGO COMO TITULO PORQUE NECESITAS MODIFICAR LA VARIABLE GLOBAL
     izquierda = 0
     derecha = len(titulos) - 1
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = titulos[mitad][0]
-
         if newPalabra < elementoDelMedio:
             derecha = mitad - 1
         else:
             izquierda = mitad + 1
-    # INSERTAR Y ACOMODAR LOS INDICES
     if izquierda >= len(titulos) or len(titulos) == 0:
         titulos.append([newPalabra, [index]])
     else:
@@ -135,8 +151,8 @@ def insertarCodigo(newCodigo, index):
 def eliminarPelicula():
     global codigos
     global peliculas
-
-    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea eliminar: ")
+    codigo = pedirCodigo(
+        "\nIngrese el codigo de la pelicula que desea eliminar: ")
     fila = buscar(codigo, codigos, True)
     if fila != -1:
         indicePelicula = codigos[fila][1]
@@ -145,7 +161,6 @@ def eliminarPelicula():
     else:
         print("\nNo hay una pelicula registrada con el codigo ingresado.")
         return False
-    
 
 
 def packing():
@@ -156,7 +171,6 @@ def packing():
         print("PELICULA ", pelicula)
         if pelicula[0] == "*":
             if i == (len(peliculas)-1):
-                print("HOLA")
                 i = i+1
             index = peliculas.index(pelicula)
             eliminarTitulo((pelicula[2].lower()), index)
@@ -165,14 +179,6 @@ def packing():
             compactar(index)
         else:
             i = i+1
-    '''for pelicula in peliculas:
-        print("PELICULA ", pelicula)
-        if pelicula[0] == "*":
-            index = peliculas.index(pelicula)
-            eliminarTitulo((pelicula[2].lower()), index)
-            eliminarCodigo(pelicula[1])
-            peliculas.remove(pelicula)
-            compactar(index)'''
 
 
 def eliminarTitulo(titulo, index):
@@ -214,7 +220,7 @@ def rentarPelicula():
 
     info = pedirDatosRenta()
     indice = buscar(info[1], codigos, True)
-    
+
     if indice != -1:
         indicePelicula = codigos[indice][1]
         nombre = peliculas[indicePelicula][2].capitalize()
@@ -230,13 +236,15 @@ def rentarPelicula():
         print('No hay una pelicula registrada con el codigo ingresado.')
         return False
 
+
 def devolverPelicula():
     global peliculas
     global codigos
 
-    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea devolver: ")
+    codigo = pedirCodigo(
+        "\nIngrese el codigo de la pelicula que desea devolver: ")
     indice = buscar(codigo, codigos, True)
-    
+
     if indice != -1:
         indicePelicula = codigos[indice][1]
         nombre = peliculas[indicePelicula][2].capitalize()
@@ -246,8 +254,75 @@ def devolverPelicula():
             print("\nHa devuelto '{}'.".format(nombre))
             return True
         else:
-            print("\nLa pelicula '{}' no esta alquilada y no puede ser devuelta.".format(nombre))
+            print(
+                "\nLa pelicula '{}' no esta alquilada y no puede ser devuelta.".format(nombre))
             return False
     else:
         print("\nNo hay una pelicula registrada con el codigo ingresado.")
         return False
+
+def consultaPorCodigo():
+    global peliculas
+    global codigos
+
+    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea consultar: ")
+    indice = buscar(codigo, codigos, True)
+    
+    print("\nRESULTADOS DE BUSQUEDA:\n")
+    if indice != -1:
+        indicePelicula = codigos[indice][1]
+        nombre = peliculas[indicePelicula][2].capitalize()
+        if peliculas[indicePelicula][4] != -1:
+            print(peliculas)
+            print("\nLa pelicula '{}' se encuentra alquilada.".format(nombre)) 
+            return True     
+        else:
+            print("\nLa pelicula '{}' no esta alquilada.".format(nombre))     
+            return False 
+    else:
+        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        return False
+        
+
+def consultaPorPalabras():
+    global peliculas
+    global titulos
+
+    palabras = pedirPalabras()
+    peliculaPedida = []
+
+    print("\nRESULTADOS DE BUSQUEDA:\n")
+    for i in range(len(palabras)):
+        peliculasTemp = []
+        indice = buscar(palabras[i], titulos)
+        if indice != -1:
+            if i == 0:
+                for index in titulos[indice][1]:
+                    if peliculas[index][0] != "*":
+                        peliculaPedida.append(index)
+            else:
+                for index in titulos[indice][1]:
+                    if peliculaPedida.count(index):
+                        peliculasTemp.append(index)
+                peliculaPedida = peliculasTemp
+        else:
+            print("\nNo hay una pelicula registrada cuyo titulo contenga esa(s) palabra(s).")
+            return False
+
+    if len(peliculaPedida):
+        for indicePelicula in peliculaPedida:
+            nombre = peliculas[indicePelicula][2].capitalize()
+            codigo = peliculas[indicePelicula][1]
+            if peliculas[indicePelicula][4] != -1:
+                print(peliculas)
+                print("\n   La pelicula de titulo '{}' y codigo {} se encuentra alquilada.".format(nombre, codigo))      
+            else:
+                print("\n   La pelicula de titulo '{}' y codigo {} no esta alquilada.".format(nombre, codigo)) 
+        return True
+    else:
+        print("\nNo hay una pelicula registrada cuyo titulo contenga esa(s) palabra(s).")
+        return False
+    
+
+
+
