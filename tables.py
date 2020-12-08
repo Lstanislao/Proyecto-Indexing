@@ -1,4 +1,5 @@
-from funciones import *
+from funciones import pedirPelicula, pedirDatosRenta, pedirCodigo
+import csv
 
 peliculas = [
     ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',

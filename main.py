@@ -2,6 +2,17 @@ from tables import*
 from prettytable import PrettyTable
 from time import sleep
 
+import csv
+
+with open ('movies.csv', 'r') as csv_file:
+    csv_reader = csv.DictReader(csv_file)
+
+    with open ('movies.csv', 'w') as new_csv:
+        fieldnames = ['Logical', 'CodeNumber', 'MovieName', 'DailyPrice', 'Member']
+
+        csv_writer = csv.DictWriter(new_csv, fieldnames=fieldnames , delimiter = ',')
+        csv_writer.writeheader()
+        
 '''seguir = 1
 while seguir == 1:
     agregarPelicula()
