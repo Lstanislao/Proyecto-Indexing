@@ -1,37 +1,13 @@
 from tables import*
 from prettytable import PrettyTable
+# from pyfiglet import Figlet
 from time import sleep
 
 import csv
 
-        
-'''seguir = 1
-while seguir == 1:
-    agregarPelicula()
-    print(peliculas)
-    seguir = int(input("seguir? "))
-    #busqueda = int(input("codigo que desea buscar"))
-    #print(buscar(busqueda, codigos))
-    print(peliculas)
-
-
-seguir = 1
-while seguir == 1:
-    eliminarPelicula(int(input("que vas a eliminar")))
-    print(peliculas)
-    print(codigos)
-    print(titulos)
-    print(peliculas)
-    seguir = int(input("seguir? "))
-
-print(peliculas)
-packing()
-print(codigos)
-print(titulos)
-print(peliculas)'''
-
-
 menu = True
+# f = Figlet(font='slant')
+# print (f.renderText("BLOCKBUSTER'S"))
 while menu:
     decision = input("\n\nWelcome to Blockbuster's System! \n\n  If you wanna ADD A NEW MOVIE, type 1\n\n  If you wanna DELETE A MOVIE, type 2\n\n  If you wanna CHECK IF A MOVIE IS RENTED, type 3\n\n  If you wanna RENT A MOVIE, type 4\n\n  If you wanna RETURN A MOVIE, type 5\n\n  Type 6 to SHOW ALL THE MOVIES\n\n  Type 7 to PACK\n\n  Type any other thing to EXIT\n\n")
     
