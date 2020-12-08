@@ -1,21 +1,17 @@
-from funciones import pedirPelicula, pedirDatosRenta, pedirCodigo
+from funciones import*
 import csv
 
+firstRowMovies = ['Logical','CodeNumber','MovieName','DailyPrice','Member']
+firstRowCodes = ['Code','Index']
+firstRowWords = ['Words','Index']
 peliculas = [
-    ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia',
-                                                                                             12564, -1], ['', 85203, 'la princesa y el sapo', 12651, -1], ['*', 12378, 'furisos sapo y la bestia', 12564, -1]
-
 ]
 
-titulos = [
-
-    ['2', [1]], ['bella', [2]], ['bestia', [2, 4]], ['el', [0, 3]], ['furiosos', [1]], ['furisos', [4]], ['la', [2, 2, 3, 4]], ['leon',
-                                                                                                                                [0]], ['princesa', [3]], ['rapidos', [1]], ['rey', [0]], ['sapo', [3, 4]], ['y', [1, 2, 3, 4]]
+titulos = [                                                                                                    
 ]
 
 codigos = [
-    [10000, 1], [11111, 0], [12378, 4], [55555, 2], [85203, 3]
-]
+    ]
 
 
 def pedirPelicula():
@@ -45,19 +41,39 @@ def pedirPelicula():
 def agregarPelicula():
     global peliculas
     peli = pedirPelicula()
-    peliculas.append(peli)
-    index = peliculas.index(peli)
-    titulo = peli[2].lower()
-    codigo = peli[1]
-    agregarTitulo(titulo, index)
-    insertarCodigo(codigo, index)
+    with open ('movies.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        next(csv_reader)
+        peliculitas = []
+        for movie in csv_reader:
+            peliculitas.append(movie)
+        peliculitas.append(peli)
+        print(peliculitas)
+
+        with open ('movies.csv', 'w',newline='') as new_csv_file:
+            csv_writer = csv.writer(new_csv_file)
+            csv_writer.writerow(firstRowMovies)
+            for p in peliculitas:
+                csv_writer.writerow(p)
+        index = peliculitas.index(peli)
+        titulo = peli[2].lower()
+        codigo = peli[1]
+        agregarTitulo(titulo, index)
+        insertarCodigo(codigo, index)
 
 
 def agregarTitulo(titulo, index):
     global titulos
+    titulos = []
+    with open ('wordsIndex.csv', 'r') as words_file:
+        csv_reader = csv.reader(words_file)
+        next(csv_reader)
+        for w in csv_reader:
+            titulos.append(w)
     print(titulos)
     palabras = titulo.split(" ")
     palabras = list(set(palabras))
+    print(palabras)
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
@@ -70,6 +86,13 @@ def agregarTitulo(titulo, index):
                     newIndices.append(indice)
                 newIndices.append(index)
                 titulos[posicion][1] = newIndices
+    # print('los titulos son: \n')
+    # print(titulitos)
+    with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
+        csv_writer = csv.writer(new_words_file)
+        csv_writer.writerow(firstRowWords)
+        for t in titulos:
+            csv_writer.writerow(t)
     print('titulos: ', titulos)
 
 
