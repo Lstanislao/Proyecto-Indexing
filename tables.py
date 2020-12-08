@@ -2,36 +2,40 @@ from funciones import*
 from prettytable import PrettyTable
 import csv
 
-firstRowMovies = ['Logical','CodeNumber','MovieName','DailyPrice','Member']
-firstRowCodes = ['Code','Index']
-firstRowWords = ['Words','Index']
+firstRowMovies = ['Logical', 'CodeNumber', 'MovieName', 'DailyPrice', 'Member']
+firstRowCodes = ['Code', 'Index']
+firstRowWords = ['Words', 'Index']
 peliculas = [
 ]
 
-titulos = [                                                                                                    
+titulos = [
 ]
 
 codigos = [
-    ]
+]
+
 
 def leerPalabras():
+    '''Funcion que lee la tabla de palabras del cvs respectivo'''
     global titulos
     titulos = []
-    with open ('wordsIndex.csv', 'r') as words_file:
+    with open('wordsIndex.csv', 'r') as words_file:
         csv_reader = csv.reader(words_file)
         next(csv_reader)
         contador = 0
         for w in csv_reader:
             titulos.append(w)
             titulos[contador][1] = titulos[contador][1].strip('][').split(',')
-            for i in range (len(titulos[contador][1])):
+            for i in range(len(titulos[contador][1])):
                 titulos[contador][1][i] = int(titulos[contador][1][i])
             contador += 1
 
+
 def leerCodigos():
+    '''Funcion que lee la tabla de codigos del cvs'''
     global codigos
     codigos = []
-    with open ('codesIndex.csv', 'r') as codes_file:
+    with open('codesIndex.csv', 'r') as codes_file:
         csv_reader = csv.reader(codes_file)
         next(csv_reader)
         contador = 0
@@ -39,18 +43,22 @@ def leerCodigos():
             codigos.append(c)
             for i in range(2):
                 codigos[contador][i] = int(codigos[contador][i])
-            contador+=1
+            contador += 1
+
 
 def leerPeliculas():
+    '''Funcion que lee la tabla de peliculas del cvs'''
     global peliculas
     peliculas = []
-    with open ('movies.csv', 'r') as csv_file:
+    with open('movies.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
         for movie in csv_reader:
             peliculas.append(movie)
 
+
 def pedirPelicula():
+    '''Funcion que hace entrada de la pelicula y valida si ya se encuentra registrada'''
     global titulos
     global codigos
     leerCodigos()
@@ -97,13 +105,14 @@ def pedirPelicula():
 
 
 def agregarPelicula():
+    '''Funcion que agrega la pelicula a las tablas, peliculas , codigo y titulo'''
     global peliculas
     leerPeliculas()
 
     peli = pedirPelicula()
     peliculas.append(peli)
 
-    with open ('movies.csv', 'w',newline='') as new_csv_file:
+    with open('movies.csv', 'w', newline='') as new_csv_file:
         csv_writer = csv.writer(new_csv_file)
         csv_writer.writerow(firstRowMovies)
         for p in peliculas:
@@ -116,6 +125,9 @@ def agregarPelicula():
 
 
 def agregarTitulo(titulo, index):
+    '''Funcion agrega cada palabra del titulo a la tabla de titulo
+    parametro titulo: titulo completo de la pelicula agregarse
+    parametro index: posicion de este titulo en la tabla peliculas '''
     global titulos
     leerPalabras()
 
@@ -133,25 +145,22 @@ def agregarTitulo(titulo, index):
                     newIndices.append(indice)
                 newIndices.append(index)
                 titulos[posicion][1] = newIndices
-    with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
+    with open('wordsIndex.csv', 'w', newline='') as new_words_file:
         csv_writer = csv.writer(new_words_file)
         csv_writer.writerow(firstRowWords)
         for t in titulos:
             csv_writer.writerow(t)
 
 
-def ordenarTitulos():
-    global titulos
-    titulos = sorted(titulos, key=lambda fila: fila[0])
-
-# @ recibe codigo o palabra y devuelve el index dode esta en su respectiva tabla y con este se puede sacr el indice dond eesta en peliculas
-
-
 def buscar(buscado, arreglo, consulta=False):
+    '''Busqueda binaria
+    parametro buscado: elemento a buscarse en la tabla
+    parametro arreglo: tabla donde va a ser buscado el elemento
+    parametro consulta: si se va consultar la existncia del elemento en la tabla'''
     global peliculas
     izquierda = 0
     derecha = len(arreglo) - 1
-    
+
     while izquierda <= derecha:
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = arreglo[mitad][0]
@@ -169,6 +178,9 @@ def buscar(buscado, arreglo, consulta=False):
 
 
 def insertarTitulo(newPalabra, index):
+    '''Funcion auxiliar de agrgar titulo
+    parametro newPalabra: palabra unica a ser agregada a la tabla de palabras
+    parametro index: posicion de esa palabra en la tabla maestra'''
     global titulos
     izquierda = 0
     derecha = len(titulos) - 1
@@ -193,6 +205,9 @@ def insertarTitulo(newPalabra, index):
 
 
 def insertarCodigo(newCodigo, index):
+    '''Funcion agrega el codigo de la pelicula a la tabla de peliculas
+    parametro titulo: titulo completo de la pelicula agregarse
+    parametro index: posicion de este titulo en la tabla peliculas'''
     global codigos
     leerCodigos()
 
@@ -216,7 +231,7 @@ def insertarCodigo(newCodigo, index):
             codigos[i] = temporal
             temporal = aux
         codigos.append(temporal)
-    with open ('codesIndex.csv', 'w',newline='') as new_codes_file:
+    with open('codesIndex.csv', 'w', newline='') as new_codes_file:
         csv_writer = csv.writer(new_codes_file)
         csv_writer.writerow(firstRowCodes)
         for c in codigos:
@@ -224,6 +239,7 @@ def insertarCodigo(newCodigo, index):
 
 
 def eliminarPelicula():
+    '''Funcion que  hace la eliminacion logica de una pelicula , la marca con un *'''
     global codigos
     global peliculas
     mostrarPeliculas()
@@ -232,13 +248,13 @@ def eliminarPelicula():
     codigo = pedirCodigo(
         "\nIngrese el codigo de la pelicula que desea eliminar: ")
     fila = buscar(codigo, codigos, True)
-    
+
     if fila != -1:
         indicePelicula = codigos[fila][1]
         if peliculas[indicePelicula][4] == '-1':
             peliculas[indicePelicula][0] = "*"
             nombre = peliculas[indicePelicula][2].capitalize()
-            with open ('movies.csv', 'w',newline='') as new_csv_file:
+            with open('movies.csv', 'w', newline='') as new_csv_file:
                 csv_writer = csv.writer(new_csv_file)
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
@@ -254,6 +270,7 @@ def eliminarPelicula():
 
 
 def packing():
+    '''Funcion que hace el packing de todas las tablas'''
     global peliculas
     leerPeliculas()
     i = 0
@@ -266,7 +283,7 @@ def packing():
             eliminarTitulo((pelicula[2].lower()), index)
             eliminarCodigo(pelicula[1])
             peliculas.remove(pelicula)
-            with open ('movies.csv', 'w',newline='') as new_csv_file:
+            with open('movies.csv', 'w', newline='') as new_csv_file:
                 csv_writer = csv.writer(new_csv_file)
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
@@ -278,6 +295,9 @@ def packing():
 
 
 def eliminarTitulo(titulo, index):
+    '''Funcion auxiliar del packing que elimina un titulo de tabla de palabras
+    parametro titulo: titulo a eliminarse
+    parametro index: posicion en la tabla de peliculas'''
     global titulos
     leerPalabras()
 
@@ -292,18 +312,22 @@ def eliminarTitulo(titulo, index):
             titulos[aux][1] = newIndex
         else:
             titulos.pop(aux)
-    with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
+    with open('wordsIndex.csv', 'w', newline='') as new_words_file:
         csv_writer = csv.writer(new_words_file)
         csv_writer.writerow(firstRowWords)
         for t in titulos:
             csv_writer.writerow(t)
 
+
 def eliminarCodigo(codigo):
+    '''Funcion auxiliar del packing que elimina un codigo de tabla de codigos
+    parametro codigo: codigo a eliminarse
+    parametro index: posicion en la tabla de peliculas'''
     global codigos
     leerCodigos()
     index = buscar(int(codigo), codigos)
     codigos.pop(index)
-    with open ('codesIndex.csv', 'w',newline='') as new_codes_file:
+    with open('codesIndex.csv', 'w', newline='') as new_codes_file:
         csv_writer = csv.writer(new_codes_file)
         csv_writer.writerow(firstRowCodes)
         for c in codigos:
@@ -311,6 +335,8 @@ def eliminarCodigo(codigo):
 
 
 def compactar(index):
+    '''Funcion auxiliar del packing que actualiza los indices de la tabla de codigos y palabras
+    para que concuerden con la tabla de peliculas una vez eliminado un elemento'''
     global titulos
     global codigos
     leerPalabras()
@@ -323,12 +349,12 @@ def compactar(index):
         for j in range(len(titulos[i][1])):
             if titulos[i][1][j] > index:
                 titulos[i][1][j] = (titulos[i][1][j])-1
-    with open ('codesIndex.csv', 'w',newline='') as new_codes_file:
+    with open('codesIndex.csv', 'w', newline='') as new_codes_file:
         csv_writer = csv.writer(new_codes_file)
         csv_writer.writerow(firstRowCodes)
         for c in codigos:
             csv_writer.writerow(c)
-    with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
+    with open('wordsIndex.csv', 'w', newline='') as new_words_file:
         csv_writer = csv.writer(new_words_file)
         csv_writer.writerow(firstRowWords)
         for t in titulos:
@@ -354,7 +380,7 @@ def rentarPelicula():
         nombre = peliculas[indicePelicula][2].capitalize()
         if int(peliculas[indicePelicula][4]) == -1:
             peliculas[indicePelicula][4] = info[0]
-            with open ('movies.csv', 'w',newline='') as new_csv_file:
+            with open('movies.csv', 'w', newline='') as new_csv_file:
                 csv_writer = csv.writer(new_csv_file)
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
@@ -389,7 +415,7 @@ def devolverPelicula():
         nombre = peliculas[indicePelicula][2].capitalize()
         if peliculas[indicePelicula][4] != '-1':
             peliculas[indicePelicula][4] = -1
-            with open ('movies.csv', 'w',newline='') as new_csv_file:
+            with open('movies.csv', 'w', newline='') as new_csv_file:
                 csv_writer = csv.writer(new_csv_file)
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
@@ -407,7 +433,7 @@ def devolverPelicula():
 
 def consultaPorCodigo():
     '''
-    Funcion que pide el codigo de la pelicula y ve si existe. Si existe, muestra si esta alquilada o no. 
+    Funcion que pide el codigo de la pelicula y ve si existe. Si existe, muestra si esta alquilada o no.
     Si no, muestra que no hay una pelicula con ese codigo.
     '''
     global peliculas
@@ -417,21 +443,21 @@ def consultaPorCodigo():
 
     codigo = pedirCodigo("\nType the code of the movie you wanna CHECK: ")
     indice = buscar(codigo, codigos, True)
-    
+
     print("\nSEARCH RESULTS:\n")
     if indice != -1:
         indicePelicula = codigos[indice][1]
         nombre = peliculas[indicePelicula][2].capitalize()
         if peliculas[indicePelicula][4] != '-1':
-            print("\nThe movie '{}' is rented.".format(nombre)) 
-            return True     
+            print("\nThe movie '{}' is rented.".format(nombre))
+            return True
         else:
-            print("\nThe movie '{}' is not rented.".format(nombre))     
-            return False 
+            print("\nThe movie '{}' is not rented.".format(nombre))
+            return False
     else:
         print("\nNO MOVIE WITH THAT CODE.")
         return False
-        
+
 
 def consultaPorPalabras():
     '''
@@ -442,9 +468,9 @@ def consultaPorPalabras():
     global peliculas
     global titulos
     global peliculas
-    
+
     leerPeliculas()
-    
+
     leerPalabras()
 
     palabras = pedirPalabras()
@@ -473,27 +499,27 @@ def consultaPorPalabras():
             nombre = peliculas[indicePelicula][2].capitalize()
             codigo = peliculas[indicePelicula][1]
             if peliculas[indicePelicula][4] != '-1':
-                print("\n   The movie with the title '{}' and the code {} is rented.".format(nombre, codigo))      
+                print("\n   The movie with the title '{}' and the code {} is rented.".format(
+                    nombre, codigo))
             else:
-                print("\n   The movie with the title '{}' and the code {} is not rented.".format(nombre, codigo)) 
+                print("\n   The movie with the title '{}' and the code {} is not rented.".format(
+                    nombre, codigo))
         return True
     else:
         print("\nNO MOVIE WITH THAT/THOSE WORD/WORDS.")
         return False
-    
+
+
 def mostrarPeliculas():
     x = PrettyTable()
 
     peliculas = []
-    with open ('movies.csv', 'r') as csv_file:
+    with open('movies.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         for movie in csv_reader:
             peliculas.append(movie)
-    x.field_names= peliculas[0]
-    for i in range (1,len(peliculas)):
+    x.field_names = peliculas[0]
+    for i in range(1, len(peliculas)):
         x.add_row(peliculas[i])
     print(x)
     print('\nIF LOGICAL HAVE A "*", THE MOVIE WAS LOGICALLY REMOVED\nIF MEMBER NUMBER IS "-1", THE MOVIE IS NOT RENTED RIGTH NOW')
-
-
-
