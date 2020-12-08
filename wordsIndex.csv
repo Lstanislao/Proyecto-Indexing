@@ -1,5 +1,7 @@
 Words,Index
-crack,[1]
-luis,"['[', '0', ']', 1]"
-profe,[0]
-stanis,"['[', '0', ']', 1]"
+crack,"[1, 3]"
+luis,"[0, 1, 2]"
+ori,[3]
+portu,[2]
+profe,"[0, 3]"
+stanis,"[0, 1, 2]"
