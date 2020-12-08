@@ -25,7 +25,6 @@ def leerPalabras():
             titulos.append(w)
             titulos[contador][1] = titulos[contador][1].strip('][').split(',')
             for i in range (len(titulos[contador][1])):
-                print(titulos[contador][1][i] )
                 titulos[contador][1][i] = int(titulos[contador][1][i])
             contador += 1
 
@@ -59,16 +58,16 @@ def pedirPelicula():
 
     valido = False
     while not valido:
-        codigo = pedirEntero("\nIngrese el codigo de la pelicula: ", 5)
-        print(buscar(codigo, codigos))
+        mostrarPeliculas()
+        codigo = pedirEntero("\nType the code you want for the MOVIE: ", 5)
         if buscar(codigo, codigos) == -1:
             valido = True
         else:
-            print("\nYa existe una pelicula con ese codigo.")
+            print("\nA movie of the list already has that code, type another.")
     valido = False
     titulo = ''
     while not valido:
-        titulo = pedirString('\nIngrese el nombre de la pelicula: ', 30)
+        titulo = pedirString('\nType the name of the movie: ', 30)
         titulo = titulo.lower()
         palabras = titulo.split(" ")
 
@@ -91,9 +90,9 @@ def pedirPelicula():
 
         valido = len(peliculaPedida) == 0
         if not valido:
-            print('\nYa existe una pelicula con este mismo titulo.')
+            print('\nA movie of the list already has that title.')
     alquiler = pedirEntero(
-        '\nIngrese el costo diario del alquiler de la pelicula: ', 8)
+        '\nType de DAILY COST of the movie rental: ', 8)
     return ["", codigo, titulo, alquiler, -1]
 
 
@@ -120,8 +119,6 @@ def agregarTitulo(titulo, index):
     global titulos
     leerPalabras()
 
-    print('titulos 1')
-    print(titulos)
     palabras = titulo.split(" ")
     palabras = list(set(palabras))
     for palabra in palabras:
@@ -136,14 +133,11 @@ def agregarTitulo(titulo, index):
                     newIndices.append(indice)
                 newIndices.append(index)
                 titulos[posicion][1] = newIndices
-    for title in titulos:
-        print(title[1])
     with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
         csv_writer = csv.writer(new_words_file)
         csv_writer.writerow(firstRowWords)
         for t in titulos:
             csv_writer.writerow(t)
-    print('titulos: ', titulos)
 
 
 def ordenarTitulos():
@@ -155,7 +149,6 @@ def ordenarTitulos():
 
 def buscar(buscado, arreglo, consulta=False):
     global peliculas
-    print(peliculas)
     izquierda = 0
     derecha = len(arreglo) - 1
     
@@ -163,8 +156,6 @@ def buscar(buscado, arreglo, consulta=False):
         mitad = (izquierda + derecha) // 2
         elementoDelMedio = arreglo[mitad][0]
         indice = arreglo[mitad][1]
-        
-        print(indice)
         if elementoDelMedio == buscado:
             if not consulta:
                 return mitad
@@ -230,17 +221,14 @@ def insertarCodigo(newCodigo, index):
         csv_writer.writerow(firstRowCodes)
         for c in codigos:
             csv_writer.writerow(c)
-    print('codigos: ', codigos)
 
 
 def eliminarPelicula():
     global codigos
     global peliculas
-    
+    mostrarPeliculas()
     leerPeliculas()
     leerCodigos()
-    print(codigos)
-    print('arriba')
     codigo = pedirCodigo(
         "\nIngrese el codigo de la pelicula que desea eliminar: ")
     fila = buscar(codigo, codigos, True)
@@ -255,7 +243,7 @@ def eliminarPelicula():
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
                     csv_writer.writerow(p)
-            print("\nLa pelicula '{}' se ha borrado.".format(nombre))
+            print("\nThe movie '{}' has been deleted.".format(nombre))
             return True
         else:
             print("YOU CANT DELETE A MOVIE THAT IS RENTED")
@@ -267,15 +255,10 @@ def eliminarPelicula():
 
 def packing():
     global peliculas
-    print(peliculas)
-    print(codigos)
-    print(titulos)
-    
     leerPeliculas()
     i = 0
     while i < len(peliculas):
         pelicula = peliculas[i]
-        print("PELICULA ", pelicula)
         if pelicula[0] == "*":
             if i == (len(peliculas)-1):
                 i = i+1
@@ -291,9 +274,7 @@ def packing():
             compactar(index)
         else:
             i = i+1
-    print(peliculas)
-    print(codigos)
-    print(titulos)
+    mostrarPeliculas()
 
 
 def eliminarTitulo(titulo, index):
@@ -364,7 +345,7 @@ def rentarPelicula():
     leerPeliculas()
     global codigos
     leerCodigos()
-
+    mostrarPeliculas()
     info = pedirDatosRenta()
     indice = buscar(info[1], codigos, True)
 
@@ -378,14 +359,13 @@ def rentarPelicula():
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
                     csv_writer.writerow(p)
-            print(peliculas)
-            print("\nHa rentado '{}'.".format(nombre))
+            print("\nYou have rented '{}'.".format(nombre))
             return True
         else:
-            print("\nLa pelicula '{}' ya se encuentra alquilada.".format(nombre))
+            print("\nThe movie '{}' is already rented.".format(nombre))
             return False
     else:
-        print('\nNo hay una pelicula registrada con el codigo ingresado.')
+        print('\nNO MOVIE WITH THAT CODE.')
         return False
 
 
@@ -399,7 +379,7 @@ def devolverPelicula():
     leerPeliculas()
     global codigos
     leerCodigos()
-
+    mostrarPeliculas()
     codigo = pedirCodigo(
         "\nIngrese el codigo de la pelicula que desea devolver: ")
     indice = buscar(codigo, codigos, True)
@@ -414,15 +394,14 @@ def devolverPelicula():
                 csv_writer.writerow(firstRowMovies)
                 for p in peliculas:
                     csv_writer.writerow(p)
-            print(peliculas)
             print("\nHa devuelto '{}'.".format(nombre))
             return True
         else:
             print(
-                "\nLa pelicula '{}' no esta alquilada y no puede ser devuelta.".format(nombre))
+                "\nThe movie '{}' is not rented and cant be returned.".format(nombre))
             return False
     else:
-        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        print("\nNO MOVIE WITH THAT CODE.")
         return False
 
 
@@ -436,22 +415,21 @@ def consultaPorCodigo():
     global codigos
     leerCodigos()
 
-    codigo = pedirCodigo("\nIngrese el codigo de la pelicula que desea consultar: ")
+    codigo = pedirCodigo("\nType the code of the movie you wanna CHECK: ")
     indice = buscar(codigo, codigos, True)
     
-    print("\nRESULTADOS DE BUSQUEDA:\n")
+    print("\nSEARCH RESULTS:\n")
     if indice != -1:
         indicePelicula = codigos[indice][1]
         nombre = peliculas[indicePelicula][2].capitalize()
         if peliculas[indicePelicula][4] != '-1':
-            print(peliculas)
-            print("\nLa pelicula '{}' se encuentra alquilada.".format(nombre)) 
+            print("\nThe movie '{}' is rented.".format(nombre)) 
             return True     
         else:
-            print("\nLa pelicula '{}' no esta alquilada.".format(nombre))     
+            print("\nThe movie '{}' is not rented.".format(nombre))     
             return False 
     else:
-        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        print("\nNO MOVIE WITH THAT CODE.")
         return False
         
 
@@ -472,7 +450,7 @@ def consultaPorPalabras():
     palabras = pedirPalabras()
     peliculaPedida = []
 
-    print("\nRESULTADOS DE BUSQUEDA:\n")
+    print("\nSEARCH RESULTS:\n")
     for i in range(len(palabras)):
         peliculasTemp = []
         indice = buscar(palabras[i], titulos)
@@ -487,7 +465,7 @@ def consultaPorPalabras():
                         peliculasTemp.append(index)
                 peliculaPedida = peliculasTemp
         else:
-            print("\nNo hay una pelicula registrada cuyo titulo contenga esa(s) palabra(s).")
+            print("\nNO MOVIE WITH THAT/THOSE WORD/WORDS.")
             return False
 
     if len(peliculaPedida):
@@ -495,13 +473,12 @@ def consultaPorPalabras():
             nombre = peliculas[indicePelicula][2].capitalize()
             codigo = peliculas[indicePelicula][1]
             if peliculas[indicePelicula][4] != '-1':
-                print(peliculas)
-                print("\n   La pelicula de titulo '{}' y codigo {} se encuentra alquilada.".format(nombre, codigo))      
+                print("\n   The movie with the title '{}' and the code {} is rented.".format(nombre, codigo))      
             else:
-                print("\n   La pelicula de titulo '{}' y codigo {} no esta alquilada.".format(nombre, codigo)) 
+                print("\n   The movie with the title '{}' and the code {} is not rented.".format(nombre, codigo)) 
         return True
     else:
-        print("\nNo hay una pelicula registrada cuyo titulo contenga esa(s) palabra(s).")
+        print("\nNO MOVIE WITH THAT/THOSE WORD/WORDS.")
         return False
     
 def mostrarPeliculas():
@@ -512,7 +489,6 @@ def mostrarPeliculas():
         csv_reader = csv.reader(csv_file)
         for movie in csv_reader:
             peliculas.append(movie)
-    print(peliculas)
     x.field_names= peliculas[0]
     for i in range (1,len(peliculas)):
         x.add_row(peliculas[i])

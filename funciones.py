@@ -11,11 +11,11 @@ def pedirEntero(message, maxi):
                 num = int(input(message))
                 lenght = len(str(num))
                 if (lenght > maxi or lenght == 0):
-                    print('El numero ingresado debe ser de longitud maxima: ', maxi)
+                    print('The length of the number MUST BE: ', maxi)
             valido = True
         except ValueError:
             print('''
-            Invalido, lo ingresado no es un numero
+            Sorry, what you typed was not a number.
             ''')
     return num
 
@@ -33,7 +33,7 @@ def pedirString(messages, maxi):
             valido = True
         else:
             print('''
-             Invalido. Se pueden ingresar como maximo 30 caracteres.
+             Sorry, the max length of characters is 30.
             ''')
     return entrada
 
@@ -45,12 +45,12 @@ def pedirPalabras():
     valido = False
     listaPalabras = []
     while not valido:
-        palabras = pedirString("\nIngrese una o dos palabras del titulo de la pelicula a consultar: ", 30)
+        palabras = pedirString("\nTYPE ONE OR TWO WORDS OF THE MOVIE YOU WANNA CHECK: ", 30)
         listaPalabras = palabras.lower().split(" ")
         if len(listaPalabras) == 1 or len(listaPalabras) == 2:
             valido = True
         else:
-            print("\nInvalido. Solo se puede ingresar una o dos palabras.")
+            print("\nSorry, only one or two words.")
     return listaPalabras
 
 def pedirCodigo(mensaje):
@@ -64,7 +64,7 @@ def pedirDatosRenta():
     '''
     Funcion que pide 2 numeros de maximo 5 digitos cada uno y los devuelve.
     '''
-    socio = pedirEntero("Ingrese su numero de socio: ", 5)
+    socio = pedirEntero("TYPE THE MEMBER CODE: ", 5)
     pelicula = pedirCodigo(
-        "Ingrese el codigo de la pelicula que desea rentar: ")
+        "TYPE THE CODE OF THE MOVIE YOU WANNA RENT: ")
     return socio, pelicula
