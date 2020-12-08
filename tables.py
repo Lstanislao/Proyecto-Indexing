@@ -1,27 +1,14 @@
 from funciones import*
-<<<<<<< HEAD
-=======
 from prettytable import PrettyTable
->>>>>>> gebrayel
 import csv
 
 firstRowMovies = ['Logical','CodeNumber','MovieName','DailyPrice','Member']
 firstRowCodes = ['Code','Index']
 firstRowWords = ['Words','Index']
 peliculas = [
-<<<<<<< HEAD
-    ['*', 11111, 'El rey leon', 12456, -1], ['', 10000, 'rapidos y furiosos 2', 12456, -1], ['*', 55555, 'la bella y la bestia', 12564, -1], ['', 85203, 'la princesa y el sapo', 12651, -1], ['*', 12378, 'furisos sapo y la bestia', 12564, -1]
-
-]
-
-titulos = [
-
-    ['2', [1]], ['bella', [2]], ['bestia', [2, 4]], ['el', [0, 3]], ['furiosos', [1]], ['furisos', [4]], ['la', [2, 2, 3, 4]], ['leon', [0]], ['princesa', [3]], ['rapidos', [1]], ['rey', [0]], ['sapo', [3, 4]], ['y', [1, 2, 3, 4]]
-=======
 ]
 
 titulos = [                                                                                                    
->>>>>>> gebrayel
 ]
 
 codigos = [
