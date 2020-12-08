@@ -66,6 +66,7 @@ def pedirPelicula():
         else:
             print("\nYa existe una pelicula con ese codigo.")
     valido = False
+    titulo = ''
     while not valido:
         titulo = pedirString('\nIngrese el nombre de la pelicula: ', 30)
         titulo = titulo.lower()
@@ -76,7 +77,7 @@ def pedirPelicula():
             peliculasTemp = []
             indice = buscar(palabras[i], titulos)
             if indice == -1:
-                peliculaPedida = [1]
+                peliculaPedida = []
                 break
             else:
                 if i == 0:
@@ -84,11 +85,11 @@ def pedirPelicula():
                         peliculaPedida.append(index)
                 else:
                     for index in titulos[indice][1]:
-                        if peliculaPedida.count(index):
+                        if peliculaPedida.count(index) > 0:
                             peliculasTemp.append(index)
                     peliculaPedida = peliculasTemp
 
-        valido = len(peliculaPedida) > 0
+        valido = len(peliculaPedida) == 0
         if not valido:
             print('\nYa existe una pelicula con este mismo titulo.')
     alquiler = pedirEntero(
