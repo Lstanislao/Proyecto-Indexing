@@ -70,10 +70,10 @@ def agregarTitulo(titulo, index):
         next(csv_reader)
         for w in csv_reader:
             titulos.append(w)
+    print('titulos 1')
     print(titulos)
     palabras = titulo.split(" ")
     palabras = list(set(palabras))
-    print(palabras)
     for palabra in palabras:
         if palabra != "":
             posicion = buscar(palabra, titulos)
@@ -86,14 +86,41 @@ def agregarTitulo(titulo, index):
                     newIndices.append(indice)
                 newIndices.append(index)
                 titulos[posicion][1] = newIndices
-    # print('los titulos son: \n')
-    # print(titulitos)
     with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
         csv_writer = csv.writer(new_words_file)
         csv_writer.writerow(firstRowWords)
         for t in titulos:
             csv_writer.writerow(t)
     print('titulos: ', titulos)
+    # global titulos
+    # titulos = []
+    # with open ('wordsIndex.csv', 'r') as words_file:
+    #     csv_reader = csv.reader(words_file)
+    #     next(csv_reader)
+    #     for w in csv_reader:
+    #         titulos.append(w)
+    # print(titulos)
+    # palabras = titulo.split(" ")
+    # palabras = list(set(palabras))
+    # print(palabras)
+    # for palabra in palabras:
+    #     if palabra != "":
+    #         posicion = buscar(palabra, titulos)
+    #         if posicion == -1:
+    #             insertarTitulo(palabra, index)
+    #         else:
+    #             indices = titulos[posicion][1]
+    #             newIndices = []
+    #             for indice in indices:
+    #                 newIndices.append(indice)
+    #             newIndices.append(index)
+    #             titulos[posicion][1] = newIndices
+    # with open ('wordsIndex.csv', 'w',newline='') as new_words_file:
+    #     csv_writer = csv.writer(new_words_file)
+    #     csv_writer.writerow(firstRowWords)
+    #     for t in titulos:
+    #         csv_writer.writerow(t)
+    # print('titulos: ', titulos)
 
 
 def ordenarTitulos():
