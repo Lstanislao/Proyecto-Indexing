@@ -69,4 +69,4 @@ while menu:
         print("\n\nPACKING SUCCESSFUL!\n\n")
     else:
         menu = False
-    sleep(2)
+    sleep(6)

@@ -562,6 +562,7 @@ def mostrarPeliculas():
     for i in range (1,len(peliculas)):
         x.add_row(peliculas[i])
     print(x)
+    print('\nIF LOGICAL HAVE A "*", THE MOVIE WAS LOGICALLY REMOVED\nIF MEMBER NUMBER IS "-1", THE MOVIE IS NOT RENTED RIGTH NOW')
 
 
 
