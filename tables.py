@@ -40,26 +40,26 @@ def pedirPelicula():
 
 def agregarPelicula():
     global peliculas
+    peliculas = []
     peli = pedirPelicula()
     with open ('movies.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
-        peliculitas = []
         for movie in csv_reader:
-            peliculitas.append(movie)
-        peliculitas.append(peli)
-        print(peliculitas)
+            peliculas.append(movie)
+        peliculas.append(peli)
+        print(peliculas)
 
-        with open ('movies.csv', 'w',newline='') as new_csv_file:
-            csv_writer = csv.writer(new_csv_file)
-            csv_writer.writerow(firstRowMovies)
-            for p in peliculitas:
-                csv_writer.writerow(p)
-        index = peliculitas.index(peli)
-        titulo = peli[2].lower()
-        codigo = peli[1]
-        agregarTitulo(titulo, index)
-        insertarCodigo(codigo, index)
+    with open ('movies.csv', 'w',newline='') as new_csv_file:
+        csv_writer = csv.writer(new_csv_file)
+        csv_writer.writerow(firstRowMovies)
+        for p in peliculas:
+            csv_writer.writerow(p)
+    index = peliculas.index(peli)
+    titulo = peli[2].lower()
+    codigo = peli[1]
+    agregarTitulo(titulo, index)
+    insertarCodigo(codigo, index)
 
 
 def agregarTitulo(titulo, index):
@@ -156,6 +156,17 @@ def insertarTitulo(newPalabra, index):
 
 def insertarCodigo(newCodigo, index):
     global codigos
+    codigos = []
+    with open ('codesIndex.csv', 'r') as codes_file:
+        csv_reader = csv.reader(codes_file)
+        next(csv_reader)
+        contador = 0
+        for c in csv_reader:
+            codigos.append(c)
+            for i in range(2):
+                codigos[contador][i] = int(codigos[contador][i])
+            contador+=1
+
     izquierda = 0
     derecha = len(codigos) - 1
     while izquierda <= derecha:
@@ -176,6 +187,11 @@ def insertarCodigo(newCodigo, index):
             codigos[i] = temporal
             temporal = aux
         codigos.append(temporal)
+    with open ('codesIndex.csv', 'w',newline='') as new_codes_file:
+        csv_writer = csv.writer(new_codes_file)
+        csv_writer.writerow(firstRowCodes)
+        for c in codigos:
+            csv_writer.writerow(c)
     print('codigos: ', codigos)
 
 
@@ -188,9 +204,14 @@ def eliminarPelicula():
     if fila != -1:
         indicePelicula = codigos[fila][1]
         peliculas[indicePelicula][0] = "*"
+        with open ('movies.csv', 'w',newline='') as new_csv_file:
+            csv_writer = csv.writer(new_csv_file)
+            csv_writer.writerow(firstRowMovies)
+            for p in peliculas:
+                csv_writer.writerow(p)
         return True
     else:
-        print("\nNo hay una pelicula registrada con el codigo ingresado.")
+        print("\nNO MOVIE WITH THAT CODE IN THE SYSTEM")
         return False
 
 

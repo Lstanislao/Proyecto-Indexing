@@ -41,6 +41,8 @@ while menu:
     elif decision == "2":
         if eliminarPelicula():
             print("\n\nMovie DELETED SUCCESSFULLY!\n\n")
+        else:
+            pass
     elif decision == "3":
         busqueda = input("\n  If you wanna search by CODE, type 1\n\n  If you wanna search by ONE OR TWO WORDS, type 2\n\n")
         if busqueda == "1":
